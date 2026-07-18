@@ -18,4 +18,15 @@ abstract class Controller
     {
         abort_unless($item->profile->user_id === $request->user()->id, 403);
     }
+
+    /**
+     * Abort with a 403 unless the given item's user_id matches the
+     * authenticated user.
+     *
+     * @param  Model&object{user_id: int}  $item
+     */
+    protected function authorizeOwnership(Request $request, Model $item): void
+    {
+        abort_unless($item->user_id === $request->user()->id, 403);
+    }
 }

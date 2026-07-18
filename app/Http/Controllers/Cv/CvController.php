@@ -18,7 +18,7 @@ class CvController extends Controller
 
     public function show(Request $request, Cv $cv): View
     {
-        abort_unless($cv->user_id === $request->user()->id, 403);
+        $this->authorizeOwnership($request, $cv);
 
         return view('cvs.show', compact('cv'));
     }

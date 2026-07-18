@@ -41,7 +41,7 @@ class CvController extends Controller
 
     public function analyze(Request $request, Cv $cv): JsonResponse
     {
-        abort_unless($cv->user_id === $request->user()->id, 403);
+        $this->authorizeOwnership($request, $cv);
 
         try {
             $analysis = app(CvAnalysisService::class)->analyze($cv);

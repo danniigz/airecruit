@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CvController as ApiCvController;
 use App\Http\Controllers\Cv\CvController;
+use App\Http\Controllers\JobOffer\JobOfferController;
 use App\Http\Controllers\Profile\CertificationController;
 use App\Http\Controllers\Profile\EducationController;
 use App\Http\Controllers\Profile\ExperienceController;
@@ -55,11 +56,17 @@ Route::middleware('auth')->group(function () {
         Route::post('/{cv}/analyze', [ApiCvController::class, 'analyze'])->name('analyze');
     });
 
-    // Placeholders: se implementarán en próximas tareas del MVP.
-    Route::get('/job-offers', function () {
-        return view('coming-soon', ['title' => 'Ofertas de empleo']);
-    })->name('job-offers.index');
+    Route::prefix('job-offers')->name('job-offers.')->group(function () {
+        Route::get('/', [JobOfferController::class, 'index'])->name('index');
+        Route::get('/create', [JobOfferController::class, 'create'])->name('create');
+        Route::post('/', [JobOfferController::class, 'store'])->name('store');
+        Route::get('/{jobOffer}', [JobOfferController::class, 'show'])->name('show');
+        Route::get('/{jobOffer}/edit', [JobOfferController::class, 'edit'])->name('edit');
+        Route::patch('/{jobOffer}', [JobOfferController::class, 'update'])->name('update');
+        Route::delete('/{jobOffer}', [JobOfferController::class, 'destroy'])->name('destroy');
+    });
 
+    // Placeholders: se implementarán en próximas tareas del MVP.
     Route::get('/cover-letters', function () {
         return view('coming-soon', ['title' => 'Cartas de presentación']);
     })->name('cover-letters.index');
