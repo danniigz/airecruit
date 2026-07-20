@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CvController as ApiCvController;
 use App\Http\Controllers\Comparison\ComparisonController;
 use App\Http\Controllers\CoverLetter\CoverLetterController;
 use App\Http\Controllers\Cv\CvController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JobOffer\JobOfferController;
 use App\Http\Controllers\Profile\CertificationController;
 use App\Http\Controllers\Profile\EducationController;
@@ -21,9 +22,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('profile')->name('profile.')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('index');
