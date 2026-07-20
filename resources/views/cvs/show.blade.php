@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :title="$cv->original_filename">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-800 leading-tight">
             {{ __('Análisis del CV') }}
@@ -45,11 +45,11 @@
                     </p>
 
                     @if ($jobOffers->isEmpty())
-                        <p class="text-sm text-amber-700">
+                        <div class="border border-dashed border-amber-300 bg-amber-50 rounded-md p-4 text-sm text-amber-800">
                             {{ __('Todavía no has añadido ninguna oferta de empleo.') }}
                             <a href="{{ route('job-offers.create') }}" class="font-medium text-brand-700 hover:text-brand-800">{{ __('Añade una oferta') }}</a>
                             {{ __('para poder comparar.') }}
-                        </p>
+                        </div>
                     @else
                         <form id="comparison-launcher-form" data-cv-id="{{ $cv->id }}" class="flex flex-col sm:flex-row gap-3 sm:items-center">
                             @csrf

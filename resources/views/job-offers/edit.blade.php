@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Editar oferta">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-800 leading-tight">
             {{ __('Editar oferta de empleo') }}

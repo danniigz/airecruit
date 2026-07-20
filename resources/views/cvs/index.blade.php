@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Mis CVs">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-800 leading-tight">
             {{ __('Mis CVs') }}
@@ -57,8 +57,8 @@
                             </a>
                         </li>
                     @empty
-                        <li id="cv-list-empty" class="text-sm text-slate-500">
-                            {{ __('Todavía no has subido ningún CV.') }}
+                        <li id="cv-list-empty" class="border border-dashed border-slate-300 rounded-md p-6 text-center text-sm text-slate-500">
+                            {{ __('Todavía no has subido ningún CV. Usa el formulario de arriba para subir el primero.') }}
                         </li>
                     @endforelse
                 </ul>

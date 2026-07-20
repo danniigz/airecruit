@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Comparaciones">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-800 leading-tight">
             {{ __('Mis comparaciones') }}
@@ -32,8 +32,13 @@
                             </div>
                         </li>
                     @empty
-                        <li class="text-sm text-slate-500">
-                            {{ __('Todavía no has realizado ninguna comparación.') }}
+                        <li>
+                            <x-empty-state
+                                :title="__('Todavía no has realizado ninguna comparación')"
+                                :description="__('Sube un CV analizado y añade una oferta de empleo para generar tu primera comparación de compatibilidad con IA.')"
+                                :action-href="route('cvs.index')"
+                                :action-label="__('Sube tu CV')"
+                            />
                         </li>
                     @endforelse
                 </ul>

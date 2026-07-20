@@ -12,11 +12,11 @@
 
         <div class="mt-4 space-y-4">
             @if (session('status') === 'education-created')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Formación añadida.') }}</p>
+                <x-flash-message>{{ __('Formación añadida.') }}</x-flash-message>
             @elseif (session('status') === 'education-updated')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Formación actualizada.') }}</p>
+                <x-flash-message>{{ __('Formación actualizada.') }}</x-flash-message>
             @elseif (session('status') === 'education-deleted')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Formación eliminada.') }}</p>
+                <x-flash-message>{{ __('Formación eliminada.') }}</x-flash-message>
             @endif
 
             @forelse ($profile->educations as $education)
@@ -94,7 +94,9 @@
                     </form>
                 </x-modal>
             @empty
-                <p class="text-sm text-slate-500">{{ __('Todavía no has añadido formación académica.') }}</p>
+                <div class="border border-dashed border-slate-300 rounded-md p-4 text-center text-sm text-slate-500">
+                    {{ __('Todavía no has añadido formación académica.') }}
+                </div>
             @endforelse
 
             <x-secondary-button type="button" data-modal-open="education-create">

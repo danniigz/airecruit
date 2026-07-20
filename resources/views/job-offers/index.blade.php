@@ -1,6 +1,6 @@
-<x-app-layout>
+<x-app-layout title="Ofertas de empleo">
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h2 class="font-semibold text-xl text-slate-800 leading-tight">
                 {{ __('Ofertas de empleo') }}
             </h2>
@@ -14,7 +14,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             @if (session('status') === 'job-offer-deleted')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Oferta eliminada.') }}</p>
+                <x-flash-message>{{ __('Oferta eliminada.') }}</x-flash-message>
             @endif
 
             <div class="p-4 sm:p-8 bg-white shadow-sm sm:rounded-lg border border-slate-200">
@@ -46,8 +46,13 @@
                             </div>
                         </li>
                     @empty
-                        <li class="text-sm text-slate-500">
-                            {{ __('Todavía no has añadido ninguna oferta de empleo.') }}
+                        <li>
+                            <x-empty-state
+                                :title="__('Todavía no has añadido ninguna oferta de empleo')"
+                                :description="__('Añade la primera oferta para poder comparar tu compatibilidad y generar una carta de presentación con IA.')"
+                                :action-href="route('job-offers.create')"
+                                :action-label="__('Añadir oferta')"
+                            />
                         </li>
                     @endforelse
                 </ul>

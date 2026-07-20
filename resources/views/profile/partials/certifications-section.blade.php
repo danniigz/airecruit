@@ -12,11 +12,11 @@
 
         <div class="mt-4 space-y-4">
             @if (session('status') === 'certification-created')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Certificación añadida.') }}</p>
+                <x-flash-message>{{ __('Certificación añadida.') }}</x-flash-message>
             @elseif (session('status') === 'certification-updated')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Certificación actualizada.') }}</p>
+                <x-flash-message>{{ __('Certificación actualizada.') }}</x-flash-message>
             @elseif (session('status') === 'certification-deleted')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Certificación eliminada.') }}</p>
+                <x-flash-message>{{ __('Certificación eliminada.') }}</x-flash-message>
             @endif
 
             @forelse ($profile->certifications as $certification)
@@ -86,7 +86,9 @@
                     </form>
                 </x-modal>
             @empty
-                <p class="text-sm text-slate-500">{{ __('Todavía no has añadido certificaciones.') }}</p>
+                <div class="border border-dashed border-slate-300 rounded-md p-4 text-center text-sm text-slate-500">
+                    {{ __('Todavía no has añadido certificaciones.') }}
+                </div>
             @endforelse
 
             <x-secondary-button type="button" data-modal-open="certification-create">

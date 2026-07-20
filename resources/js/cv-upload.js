@@ -8,12 +8,12 @@ function setStatus(el, message, tone = 'info') {
     if (!el) return;
 
     const toneClasses = {
-        info: 'text-slate-600',
-        error: 'text-red-600',
-        success: 'text-green-700',
+        info: 'bg-slate-50 border-slate-200 text-slate-700',
+        error: 'bg-red-50 border-red-200 text-red-800',
+        success: 'bg-green-50 border-green-200 text-green-800',
     };
 
-    el.className = `mt-4 text-sm ${toneClasses[tone] ?? toneClasses.info}`;
+    el.className = `mt-4 rounded-md border px-4 py-3 text-sm font-medium ${toneClasses[tone] ?? toneClasses.info}`;
     el.textContent = message;
     el.classList.remove('hidden');
 }

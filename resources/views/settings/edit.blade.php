@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Ajustes de la cuenta">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-800 leading-tight">
             {{ __('Ajustes de la cuenta') }}

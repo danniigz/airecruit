@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Cartas de presentación">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-800 leading-tight">
             {{ __('Mis cartas de presentación') }}
@@ -25,8 +25,13 @@
                             </a>
                         </li>
                     @empty
-                        <li class="text-sm text-slate-500">
-                            {{ __('Todavía no has generado ninguna carta de presentación.') }}
+                        <li>
+                            <x-empty-state
+                                :title="__('Todavía no has generado ninguna carta de presentación')"
+                                :description="__('Genera tu primera carta personalizada combinando tu perfil profesional con una oferta de empleo.')"
+                                :action-href="route('job-offers.index')"
+                                :action-label="__('Ver mis ofertas')"
+                            />
                         </li>
                     @endforelse
                 </ul>

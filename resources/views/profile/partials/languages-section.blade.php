@@ -12,11 +12,11 @@
 
         <div class="mt-4 space-y-4">
             @if (session('status') === 'language-created')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Idioma añadido.') }}</p>
+                <x-flash-message>{{ __('Idioma añadido.') }}</x-flash-message>
             @elseif (session('status') === 'language-updated')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Idioma actualizado.') }}</p>
+                <x-flash-message>{{ __('Idioma actualizado.') }}</x-flash-message>
             @elseif (session('status') === 'language-deleted')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Idioma eliminado.') }}</p>
+                <x-flash-message>{{ __('Idioma eliminado.') }}</x-flash-message>
             @endif
 
             @forelse ($profile->languages as $language)
@@ -69,7 +69,9 @@
                     </form>
                 </x-modal>
             @empty
-                <p class="text-sm text-slate-500">{{ __('Todavía no has añadido idiomas.') }}</p>
+                <div class="border border-dashed border-slate-300 rounded-md p-4 text-center text-sm text-slate-500">
+                    {{ __('Todavía no has añadido idiomas.') }}
+                </div>
             @endforelse
 
             <x-secondary-button type="button" data-modal-open="language-create">

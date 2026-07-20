@@ -12,11 +12,11 @@
 
         <div class="mt-4 space-y-4">
             @if (session('status') === 'experience-created')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Experiencia añadida.') }}</p>
+                <x-flash-message>{{ __('Experiencia añadida.') }}</x-flash-message>
             @elseif (session('status') === 'experience-updated')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Experiencia actualizada.') }}</p>
+                <x-flash-message>{{ __('Experiencia actualizada.') }}</x-flash-message>
             @elseif (session('status') === 'experience-deleted')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Experiencia eliminada.') }}</p>
+                <x-flash-message>{{ __('Experiencia eliminada.') }}</x-flash-message>
             @endif
 
             @forelse ($profile->experiences as $experience)
@@ -99,7 +99,9 @@
                     </form>
                 </x-modal>
             @empty
-                <p class="text-sm text-slate-500">{{ __('Todavía no has añadido experiencia laboral.') }}</p>
+                <div class="border border-dashed border-slate-300 rounded-md p-4 text-center text-sm text-slate-500">
+                    {{ __('Todavía no has añadido experiencia laboral.') }}
+                </div>
             @endforelse
 
             <x-secondary-button type="button" data-modal-open="experience-create">

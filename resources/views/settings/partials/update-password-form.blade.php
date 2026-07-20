@@ -35,7 +35,7 @@
             <x-primary-button>{{ __('Guardar') }}</x-primary-button>
 
             @if (session('status') === 'password-updated')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Guardado.') }}</p>
+                <x-flash-message>{{ __('Guardado.') }}</x-flash-message>
             @endif
         </div>
     </form>

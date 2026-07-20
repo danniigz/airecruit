@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :title="$jobOffer->title">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-slate-800 leading-tight">
             {{ __('Detalle de la oferta') }}
@@ -8,9 +8,9 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             @if (session('status') === 'job-offer-created')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Oferta añadida.') }}</p>
+                <x-flash-message>{{ __('Oferta añadida.') }}</x-flash-message>
             @elseif (session('status') === 'job-offer-updated')
-                <p data-flash-message class="text-sm text-slate-600">{{ __('Oferta actualizada.') }}</p>
+                <x-flash-message>{{ __('Oferta actualizada.') }}</x-flash-message>
             @endif
 
             <div class="p-4 sm:p-8 bg-white shadow-sm sm:rounded-lg border border-slate-200">
@@ -56,11 +56,11 @@
                 </p>
 
                 @if ($analyzedCvs->isEmpty())
-                    <p class="text-sm text-amber-700">
+                    <div class="border border-dashed border-amber-300 bg-amber-50 rounded-md p-4 text-sm text-amber-800">
                         {{ __('Todavía no tienes ningún CV analizado.') }}
                         <a href="{{ route('cvs.index') }}" class="font-medium text-brand-700 hover:text-brand-800">{{ __('Sube y analiza un CV') }}</a>
                         {{ __('para poder comparar.') }}
-                    </p>
+                    </div>
                 @else
                     <form id="comparison-launcher-form" data-job-offer-id="{{ $jobOffer->id }}" class="flex flex-col sm:flex-row gap-3 sm:items-center">
                         @csrf
