@@ -24,6 +24,9 @@
                     <x-nav-link :href="route('job-offers.index')" :active="request()->routeIs('job-offers.*')">
                         {{ __('Ofertas') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('comparisons.index')" :active="request()->routeIs('comparisons.*')">
+                        {{ __('Comparaciones') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('cover-letters.index')" :active="request()->routeIs('cover-letters.*')">
                         {{ __('Cartas') }}
                     </x-nav-link>
@@ -90,6 +93,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('job-offers.index')" :active="request()->routeIs('job-offers.*')">
                 {{ __('Ofertas') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('comparisons.index')" :active="request()->routeIs('comparisons.*')">
+                {{ __('Comparaciones') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('cover-letters.index')" :active="request()->routeIs('cover-letters.*')">
                 {{ __('Cartas') }}

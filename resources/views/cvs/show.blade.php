@@ -36,6 +36,40 @@
                     @endif
                 </div>
             </div>
+
+            @if ($cv->ai_analysis)
+                <div class="p-4 sm:p-8 bg-white shadow-sm sm:rounded-lg border border-slate-200">
+                    <h3 class="text-lg font-medium text-slate-900 mb-1">{{ __('Comparar compatibilidad') }}</h3>
+                    <p class="text-sm text-slate-500 mb-4">
+                        {{ __('Selecciona una oferta de empleo para calcular la compatibilidad con este CV mediante IA.') }}
+                    </p>
+
+                    @if ($jobOffers->isEmpty())
+                        <p class="text-sm text-amber-700">
+                            {{ __('Todavía no has añadido ninguna oferta de empleo.') }}
+                            <a href="{{ route('job-offers.create') }}" class="font-medium text-brand-700 hover:text-brand-800">{{ __('Añade una oferta') }}</a>
+                            {{ __('para poder comparar.') }}
+                        </p>
+                    @else
+                        <form id="comparison-launcher-form" data-cv-id="{{ $cv->id }}" class="flex flex-col sm:flex-row gap-3 sm:items-center">
+                            @csrf
+                            <select name="job_offer_id" id="comparison-variable-select" class="block w-full sm:w-72 rounded-md border-slate-300 shadow-sm text-sm focus:border-brand-500 focus:ring-brand-500">
+                                @foreach ($jobOffers as $option)
+                                    <option value="{{ $option->id }}">{{ $option->title }} &middot; {{ $option->company }}</option>
+                                @endforeach
+                            </select>
+                            <x-primary-button type="submit" id="comparison-launcher-submit">
+                                {{ __('Comparar compatibilidad') }}
+                            </x-primary-button>
+                        </form>
+                    @endif
+
+                    <div id="comparison-launcher-status" class="hidden mt-4 text-sm"></div>
+                    <div id="comparison-launcher-result" class="hidden mt-6 border-t border-slate-200 pt-6"></div>
+                </div>
+
+                @vite('resources/js/comparison.js')
+            @endif
         </div>
     </div>
 

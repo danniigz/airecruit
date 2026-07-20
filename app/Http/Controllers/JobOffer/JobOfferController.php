@@ -35,7 +35,9 @@ class JobOfferController extends Controller
     {
         $this->authorizeOwnership($request, $jobOffer);
 
-        return view('job-offers.show', compact('jobOffer'));
+        $analyzedCvs = $request->user()->cvs()->whereNotNull('analyzed_at')->latest()->get();
+
+        return view('job-offers.show', compact('jobOffer', 'analyzedCvs'));
     }
 
     public function edit(Request $request, JobOffer $jobOffer): View

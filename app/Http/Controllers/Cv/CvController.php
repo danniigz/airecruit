@@ -20,6 +20,8 @@ class CvController extends Controller
     {
         $this->authorizeOwnership($request, $cv);
 
-        return view('cvs.show', compact('cv'));
+        $jobOffers = $request->user()->jobOffers()->latest()->get();
+
+        return view('cvs.show', compact('cv', 'jobOffers'));
     }
 }

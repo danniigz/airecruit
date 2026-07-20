@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\ComparisonController as ApiComparisonController;
 use App\Http\Controllers\Api\CvController as ApiCvController;
+use App\Http\Controllers\Comparison\ComparisonController;
 use App\Http\Controllers\Cv\CvController;
 use App\Http\Controllers\JobOffer\JobOfferController;
 use App\Http\Controllers\Profile\CertificationController;
@@ -64,6 +66,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/{jobOffer}/edit', [JobOfferController::class, 'edit'])->name('edit');
         Route::patch('/{jobOffer}', [JobOfferController::class, 'update'])->name('update');
         Route::delete('/{jobOffer}', [JobOfferController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('comparisons')->name('comparisons.')->group(function () {
+        Route::get('/', [ComparisonController::class, 'index'])->name('index');
+        Route::get('/{comparison}', [ComparisonController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('api/comparisons')->name('api.comparisons.')->group(function () {
+        Route::post('/', [ApiComparisonController::class, 'store'])->name('store');
     });
 
     // Placeholders: se implementarán en próximas tareas del MVP.
