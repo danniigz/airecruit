@@ -1,58 +1,171 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AIRecruit — Career Copilot
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+TFM (Trabajo Fin de Máster) del Máster de Desarrollo con IA.
 
-## About Laravel
+## Índice
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Descripción general](#descripción-general)
+- [Stack tecnológico](#stack-tecnológico)
+- [Instalación y ejecución en local](#instalación-y-ejecución-en-local)
+- [Estructura del proyecto](#estructura-del-proyecto)
+- [Funcionalidades principales](#funcionalidades-principales)
+- [Usuario de prueba](#usuario-de-prueba)
+- [Despliegue](#despliegue)
+- [Notas técnicas destacables](#notas-técnicas-destacables)
+- [Enlaces](#enlaces)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Descripción general
 
-## Learning Laravel
+**AIRecruit** es una plataforma web que acompaña al usuario en su búsqueda de empleo: le ayuda a construir y analizar su CV, a comparar ofertas de trabajo con su perfil profesional obteniendo una puntuación de compatibilidad, y a generar cartas de presentación adaptadas a cada oferta.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+El proyecto nace como TFM del Máster de Desarrollo con IA, y su premisa de diseño es que **la IA es el núcleo funcional de la aplicación, no un añadido superficial**. Cada feature de IA resuelve un problema real de análisis o generación de contenido, no es una llamada decorativa a un LLM:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Feature de IA | Qué hace |
+|---|---|
+| **Análisis de CV** | Extrae el texto del PDF subido y lo envía a un LLM, que devuelve resumen, puntos fuertes, áreas de mejora, años de experiencia aproximados y skills principales detectadas. |
+| **Scoring de compatibilidad** | Compara el CV con una oferta de empleo y devuelve una puntuación (0-100) junto con fortalezas, carencias y recomendaciones concretas para la candidatura. |
+| **Generación de carta de presentación** | Redacta una carta personalizada a partir del perfil profesional del usuario y una oferta concreta, coherente con la experiencia real del candidato. |
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## Stack tecnológico
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+| Capa | Tecnología |
+|---|---|
+| Backend + Frontend | Laravel (PHP 8.4), monolito con plantillas Blade |
+| Estilos | TailwindCSS |
+| Interactividad frontend | JavaScript vanilla + fetch API (sin Alpine.js ni otros frameworks JS) |
+| Base de datos | SQLite (desarrollo) · PostgreSQL (producción) |
+| IA | OpenAI API vía [`openai-php/client`](https://github.com/openai-php/client) |
+| Extracción de texto de PDF | `smalot/pdfparser` |
+| Testing | PHPUnit |
+| Despliegue | [Railway](https://railway.app) |
+
+---
+
+## Instalación y ejecución en local
+
+### Requisitos previos
+
+- PHP 8.4 y Composer.
+- Node.js y npm.
+- Una **API key propia de OpenAI** — las funciones de IA (análisis de CV, scoring de compatibilidad, generación de cartas) no funcionarán sin ella.
+
+### Pasos
 
 ```bash
-composer require laravel/boost --dev
+# 1. Clonar el repositorio
+git clone https://github.com/danniigz/airecruit.git
+cd AIRecruit
 
-php artisan boost:install
+# 2. Instalar dependencias PHP
+composer install
+
+# 3. Instalar dependencias JS
+npm install
+
+# 4. Configurar el entorno
+cp .env.example .env
+php artisan key:generate
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Edita el `.env` y añade tu clave de OpenAI:
 
-## Contributing
+```env
+OPENAI_API_KEY=sk-...
+OPENAI_TIMEOUT=30
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+# 5. Crear la base de datos SQLite (si no existe) y migrar con datos de ejemplo
+touch database/database.sqlite
+php artisan migrate --seed
 
-## Code of Conduct
+# 6. Compilar los assets
+npm run dev       # modo desarrollo (watch), mientras trabajas en el frontend
+# o bien
+npm run build      # build final, para servir en producción o si no vas a tocar más el frontend
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 7. Levantar el servidor
+php artisan serve
+```
 
-## Security Vulnerabilities
+La aplicación quedará disponible en `http://localhost:8000` (o en la URL que gestione [Laravel Herd](https://herd.laravel.com/) si lo usas en su lugar).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Estructura del proyecto
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+app/
+├── Models/                    User, Profile, Experience, Education, Skill,
+│                               Language, Certification, Cv, JobOffer,
+│                               Comparison, CoverLetter
+├── Http/Controllers/           Agrupados por dominio: Auth, Profile, Cv,
+│                               JobOffer, Comparison, CoverLetter, Api, Dashboard
+└── Services/
+    ├── OpenAIService.php        Cliente base sobre openai-php/client
+    │                             (modelo, manejo de errores, respuestas JSON)
+    ├── CvAnalysisService.php     Extracción de texto del PDF y análisis de CV con IA
+    ├── ComparisonService.php     Scoring de compatibilidad CV ↔ oferta de empleo
+    └── CoverLetterService.php    Generación de cartas de presentación con IA
+
+database/
+├── migrations/                Una migración por tabla, ordenadas según dependencias (FKs)
+└── seeders/                    DatabaseSeeder con usuario y datos de demo realistas
+
+resources/
+└── views/                      Plantillas Blade: perfil, CVs, ofertas, comparaciones,
+                                 cartas de presentación, dashboard, auth
+```
+
+---
+
+## Funcionalidades principales
+
+MVP completo, en orden de prioridad:
+
+| # | Funcionalidad | Descripción |
+|---|---|---|
+| 1 | **Autenticación** | Registro, login y logout |
+| 2 | **Perfil profesional** | Gestión de experiencia laboral, educación, skills, idiomas y certificaciones |
+| 3 | **CV + análisis con IA** | Subida de CV en PDF con extracción de datos clave, resumen, puntos fuertes y áreas de mejora |
+| 4 | **Comparación con oferta** | Scoring de compatibilidad generado por IA con fortalezas, carencias y recomendaciones |
+| 5 | **Carta de presentación con IA** | Generación a partir del perfil y una oferta concreta |
+| 6 | **Dashboard** | Resumen de CVs, comparaciones y cartas generadas |
+
+---
+
+## Usuario de prueba
+
+La base de datos sembrada (`php artisan migrate --seed`) incluye un usuario demo con datos de ejemplo ya cargados: perfil completo (experiencia, educación, skills, idiomas, certificaciones), CVs con análisis de IA, ofertas de empleo, comparaciones de compatibilidad y cartas de presentación generadas.
+
+```
+Email:    demo@airecruit.test
+Password: password
+```
+
+---
+
+## Despliegue
+
+La aplicación está desplegada en Railway:
+
+**https://airecruit-production.up.railway.app**
+
+En producción se utiliza **PostgreSQL** en lugar de SQLite, y el esquema de URL se fuerza a HTTPS (`URL::forceScheme('https')` en `AppServiceProvider`) para evitar contenido mixto detrás del proxy de Railway.
+
+---
+
+## Notas técnicas destacables
+
+Durante una revisión de QA del proyecto se detectó y corrigió un problema de seguridad: la descarga de CVs comprobaba la propiedad (*ownership*) del archivo a nivel de aplicación, pero el disco `local` de Laravel tenía `serve => true` en `config/filesystems.php`, lo que permitía servir el PDF directamente a través de la ruta de archivos del framework **sin pasar por esa comprobación de ownership**. La corrección consistió en poner `serve => false` en el disco `local`, forzando que toda descarga de CVs pase obligatoriamente por el controlador y su verificación de propiedad.
+
+---
+
+## Enlaces
+
+- Slides: [PENDIENTE]
+- Vídeo de presentación: [PENDIENTE]
