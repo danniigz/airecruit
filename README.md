@@ -157,6 +157,25 @@ La aplicación está desplegada en Railway:
 
 En producción se utiliza **PostgreSQL** en lugar de SQLite, y el esquema de URL se fuerza a HTTPS (`URL::forceScheme('https')` en `AppServiceProvider`) para evitar contenido mixto detrás del proxy de Railway.
 
+### Variables de entorno en producción
+
+Sobre la base de `.env.example`, en Railway estas variables deben tener valores distintos a los de desarrollo local:
+
+| Variable | Valor en producción |
+|---|---|
+| `APP_ENV` | `production` |
+| `APP_DEBUG` | `false` |
+| `APP_URL` | Dominio real de Railway (con `https://`) |
+| `DB_CONNECTION` | `pgsql` |
+| `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | Credenciales del plugin de PostgreSQL de Railway |
+| `OPENAI_API_KEY` | Clave real de OpenAI (nunca committeada) |
+
+El `.env` local no se toca para esto — sigue con `APP_ENV=local` y `DB_CONNECTION=sqlite`.
+
+### Storage de los CVs
+
+Los PDFs de CV se guardan y se leen siempre a través del disco `local` (`Storage::disk('local')`, privado, con `serve => false`), y se sirven exclusivamente vía controlador con verificación de ownership — no a través del disco `public`. Por eso `php artisan storage:link` **no forma parte del proceso de deploy**: no hay ningún archivo servido a través del symlink público en esta aplicación.
+
 ---
 
 ## Notas técnicas destacables
