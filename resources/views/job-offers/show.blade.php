@@ -78,8 +78,26 @@
                 <div id="comparison-launcher-status" class="hidden mt-4 text-sm"></div>
                 <div id="comparison-launcher-result" class="hidden mt-6 border-t border-slate-200 pt-6"></div>
             </div>
+
+            <div class="p-4 sm:p-8 bg-white shadow-sm sm:rounded-lg border border-slate-200">
+                <h3 class="text-lg font-medium text-slate-900 mb-1">{{ __('Generar carta de presentación') }}</h3>
+                <p class="text-sm text-slate-500 mb-4">
+                    {{ __('Genera una carta de presentación personalizada combinando tu perfil profesional con esta oferta mediante IA.') }}
+                </p>
+
+                <form id="cover-letter-launcher-form" data-job-offer-id="{{ $jobOffer->id }}">
+                    @csrf
+                    <x-primary-button type="submit" id="cover-letter-launcher-submit">
+                        {{ __('Generar carta con IA') }}
+                    </x-primary-button>
+                </form>
+
+                <div id="cover-letter-launcher-status" class="hidden mt-4 text-sm"></div>
+                <div id="cover-letter-launcher-result" class="hidden mt-6 border-t border-slate-200 pt-6"></div>
+            </div>
         </div>
     </div>
 
     @vite('resources/js/comparison.js')
+    @vite('resources/js/cover-letter.js')
 </x-app-layout>

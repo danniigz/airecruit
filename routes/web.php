@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\ComparisonController as ApiComparisonController;
+use App\Http\Controllers\Api\CoverLetterController as ApiCoverLetterController;
 use App\Http\Controllers\Api\CvController as ApiCvController;
 use App\Http\Controllers\Comparison\ComparisonController;
+use App\Http\Controllers\CoverLetter\CoverLetterController;
 use App\Http\Controllers\Cv\CvController;
 use App\Http\Controllers\JobOffer\JobOfferController;
 use App\Http\Controllers\Profile\CertificationController;
@@ -77,10 +79,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [ApiComparisonController::class, 'store'])->name('store');
     });
 
-    // Placeholders: se implementarán en próximas tareas del MVP.
-    Route::get('/cover-letters', function () {
-        return view('coming-soon', ['title' => 'Cartas de presentación']);
-    })->name('cover-letters.index');
+    Route::prefix('cover-letters')->name('cover-letters.')->group(function () {
+        Route::get('/', [CoverLetterController::class, 'index'])->name('index');
+        Route::get('/{coverLetter}', [CoverLetterController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('api/cover-letters')->name('api.cover-letters.')->group(function () {
+        Route::post('/', [ApiCoverLetterController::class, 'store'])->name('store');
+    });
 
     Route::get('/settings', [SettingsController::class, 'edit'])->name('settings.edit');
     Route::patch('/settings', [SettingsController::class, 'update'])->name('settings.update');
