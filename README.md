@@ -187,4 +187,4 @@ Durante una revisión de QA del proyecto se detectó y corrigió un problema de 
 ## Enlaces
 
 - Slides: https://docs.google.com/presentation/d/16_kYGqnW2uieWMASW44paMfRhgDB7hL_/edit?usp=sharing
-- Vídeo de presentación: [PENDIENTE]
+- Vídeo de presentación: https://youtu.be/Mf7mEqRorfs
